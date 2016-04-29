@@ -59,6 +59,31 @@ public class MainController {
     
     
  
+    @RequestMapping(value={"initusererole"})
+    public String initusererole(){
+        logger.debug("iniusererole");
+        User user= new User("user","password",true);        
+        try{
+            Role role=new Role("ROLE_USER");
+            roleBO.save(role);   
+            
+            userBO.save(user);
+            
+            user = userBO.getUserByUserName(user.getUsername());
+            List<Role> roles = user.getUserRoles();
+            roles.add(roleBO.findByUid(2));
+            user.setUserRoles(roles);            
+            
+            userBO.update(user);
+        }catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(null, "errore save role: " +
+                   e.getMessage());
+            logger.error(e);
+        }
+        
+        return "index";
+    }
+    
     @RequestMapping(value = "prova")
     public String prova(){
         logger.debug("prova");
@@ -99,7 +124,7 @@ public class MainController {
     }
     @RequestMapping(value = "initadmin")
     public String init3(){
-        logger.debug("init2() invoked");        
+       logger.debug("init2() invoked");        
        try{                           
             User user= new User("admin","password",true);              
             userBO.save(user);            
@@ -162,6 +187,8 @@ public class MainController {
         model.setViewName("index");
         return model;
     }
+    
+    
 
     //_____________________________________________________________________________//
     

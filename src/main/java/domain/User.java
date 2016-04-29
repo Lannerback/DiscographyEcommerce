@@ -73,7 +73,7 @@ public class User implements UserDetails {
 			@JoinColumn(name = "user_id", nullable = true, updatable = true) }, 
 			inverseJoinColumns = { @JoinColumn(name = "album_id", 
 					nullable = true, updatable = true) })	
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<Album> orderedAlbums = new ArrayList<Album>();
     
     public User() {
