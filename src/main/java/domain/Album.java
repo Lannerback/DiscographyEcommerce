@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
+/* autore*/
+
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"title","year","label","producer","artist_uid"})
 })
