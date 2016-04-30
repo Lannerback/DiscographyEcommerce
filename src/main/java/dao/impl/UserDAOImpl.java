@@ -63,6 +63,11 @@ public class UserDAOImpl implements UserDAO {
         query.setParameter("username", UserName);
         return (List<Role>) query.list();
     }
+    
+    @Override
+    public void delete(User user){
+        sessionFactory.getCurrentSession().delete(user);
+    }
 
     
     

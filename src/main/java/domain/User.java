@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -64,15 +66,17 @@ public class User implements UserDetails {
     @JoinTable(name = "user_roles", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = true, updatable = true) }, 
 			inverseJoinColumns = { @JoinColumn(name = "role_id", 
-					nullable = true, updatable = true) })	
-    @Cascade({CascadeType.SAVE_UPDATE})
-    private List<Role> userRoles = new ArrayList<Role>();
+					nullable = true, updatable = true)}
+                    )
+    @Cascade({CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    private Set<Role> userRoles = new HashSet<Role>(0);
 
     @ManyToMany
     @JoinTable(name = "orders", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = true, updatable = true) }, 
 			inverseJoinColumns = { @JoinColumn(name = "album_id", 
-					nullable = true, updatable = true) })	
+					nullable = true, updatable = true)}                        
+                        )	
     @Cascade(CascadeType.SAVE_UPDATE)
     private List<Album> orderedAlbums = new ArrayList<Album>();
     
@@ -87,7 +91,7 @@ public class User implements UserDetails {
     public User(String username, String password, List<Role> userRoles) {
         this.username = username;
         this.password = password;
-        this.userRoles = userRoles;
+        this.userRoles = (Set<Role>)userRoles;
     }
 
     public User(String username, String password, boolean enabled){
@@ -100,7 +104,7 @@ public class User implements UserDetails {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
-        this.userRoles = userRoles;
+        this.userRoles = (Set<Role>)userRoles;
         this.orderedAlbums = orderedAlbums;
     }  
     
@@ -109,7 +113,7 @@ public class User implements UserDetails {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
-        this.userRoles = userRoles;
+        this.userRoles = (Set<Role>)userRoles;
         this.orderedAlbums = orderedAlbums;
         this.email = email;
     } 
@@ -174,11 +178,11 @@ public class User implements UserDetails {
     }
 
     public List<Role> getUserRoles() {
-        return userRoles;
+        return (List<Role>)userRoles;
     }
 
     public void setUserRoles(List<Role> userRoles) {
-        this.userRoles = userRoles;
+        this.userRoles = (Set<Role>)userRoles;
     }
 
     @Override

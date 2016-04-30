@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
@@ -55,7 +57,12 @@ public class Album implements java.io.Serializable {
     private Artist artist;     
     
     @ManyToMany(mappedBy = "orderedAlbums")
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<User> users = new ArrayList<User>();
+    
+    public Album(){
+        
+    }
     
     public Album(String title, String length, String year, String genre,
             String label, String producer, Artist artist) {
@@ -94,8 +101,7 @@ public class Album implements java.io.Serializable {
     }
               
 
-    public Album(){}
-
+  
     public String getImage() {
         return image;
     }

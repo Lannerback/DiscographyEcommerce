@@ -26,6 +26,7 @@
                                 <li><a href="${pageContext.request.contextPath}/addorder/1">crea ordine</a></li> 
                                 <li><a href="${pageContext.request.contextPath}/addrole/1">crea collegamento user_role</a></li>
                                 <li><a href="${pageContext.request.contextPath}/initusererole">creauserconrole</a></li>
+                                <li><a href="${pageContext.request.contextPath}/initall">INITALL</a></li>
                             </ul>
                        
                     </li>

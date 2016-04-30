@@ -96,6 +96,16 @@ public class UserBOImpl implements UserBO{
         }
     }
     
+    @Override
+    public void delete(User user){
+        try{
+            userDao.delete(user);
+        }catch(DataAccessException e){
+            logger.error(e);
+            throw e;
+        }
+    }
+    
  
 
     

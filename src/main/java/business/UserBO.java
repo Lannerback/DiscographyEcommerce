@@ -28,4 +28,6 @@ public interface UserBO {
     public User getUserByUserName(String UserName);
     
     public List<Role> getRolesByUserName(String UserName);
+    
+    public void delete(User user);
 }

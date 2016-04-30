@@ -58,9 +58,20 @@ public class MainController {
     Artist artist;
     
     
+    @RequestMapping(value = "initall")
+    public String initall(){
+        init();
+        init2();
+        init3();
+        init4(1);
+        init5(1);
+        init6();
+        
+        return "index";
+    }
  
     @RequestMapping(value={"initusererole"})
-    public String initusererole(){
+    public String init6(){
         logger.debug("iniusererole");
         User user= new User("user","password",true);        
         try{
@@ -86,12 +97,7 @@ public class MainController {
     
     @RequestMapping(value = "prova")
     public String prova(){
-        logger.debug("prova");
-        String UserName = "admin";
-        User user = userBO.getUserByUserName(UserName);
-        List<Role> roles = userBO.getRolesByUserName(UserName);
-        javax.swing.JOptionPane.showMessageDialog(null, user.getUsername());
-        javax.swing.JOptionPane.showMessageDialog(null, roles.get(0) );
+        userBO.delete(userBO.findUserById(2));
         return "index";
     }
     @RequestMapping(value = "initalbumartist")
@@ -137,7 +143,7 @@ public class MainController {
     }       
     
     @RequestMapping(value = "addorder/{userid}")
-    public String init3(@PathVariable Integer userid){
+    public String init4(@PathVariable Integer userid){
         try{
             User user = userBO.findUserById(userid);
             List<Album> albums = user.getOrderedAlbums();
@@ -152,7 +158,7 @@ public class MainController {
     }
     
     @RequestMapping(value = "addrole/{userid}")
-    public String init4(@PathVariable Integer userid){
+    public String init5(@PathVariable Integer userid){
         try{
             User user = userBO.findUserById(userid);
             List<Role> roles = user.getUserRoles();
