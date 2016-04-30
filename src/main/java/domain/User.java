@@ -69,7 +69,7 @@ public class User implements UserDetails {
 					nullable = true, updatable = true)}
                     )
     @Cascade({CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
-    private Set<Role> userRoles = new HashSet<Role>(0);
+    private List<Role> userRoles = new ArrayList<Role>();
 
     @ManyToMany
     @JoinTable(name = "orders", joinColumns = { 
@@ -91,7 +91,7 @@ public class User implements UserDetails {
     public User(String username, String password, List<Role> userRoles) {
         this.username = username;
         this.password = password;
-        this.userRoles = (Set<Role>)userRoles;
+        this.userRoles = userRoles;
     }
 
     public User(String username, String password, boolean enabled){
@@ -104,7 +104,7 @@ public class User implements UserDetails {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
-        this.userRoles = (Set<Role>)userRoles;
+        this.userRoles = userRoles;
         this.orderedAlbums = orderedAlbums;
     }  
     
@@ -113,7 +113,7 @@ public class User implements UserDetails {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
-        this.userRoles = (Set<Role>)userRoles;
+        this.userRoles = userRoles;
         this.orderedAlbums = orderedAlbums;
         this.email = email;
     } 
@@ -182,7 +182,7 @@ public class User implements UserDetails {
     }
 
     public void setUserRoles(List<Role> userRoles) {
-        this.userRoles = (Set<Role>)userRoles;
+        this.userRoles = userRoles;
     }
 
     @Override
