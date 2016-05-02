@@ -36,7 +36,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User implements UserDetails {    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer user_id;

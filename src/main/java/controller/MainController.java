@@ -13,6 +13,7 @@ import domain.Album;
 import domain.Artist;
 import domain.User;
 import domain.Role;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -23,6 +24,10 @@ import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.Base64;
+
+
+
 
 /**
  *
@@ -101,14 +106,68 @@ public class MainController {
         return "index";
     }
     @RequestMapping(value = "prova2")
-    public String prova2(){
-        User user = new User("nuoveusr","password",true);
-        List<Role> roles = new ArrayList<Role>();
-        roles.add(new Role("ROLE_NUOVO"));
-        user.setUserRoles(roles);
-        userBO.save(user);
+    public String prova2() throws UnsupportedEncodingException{
+        byte[] bytes = "Hello, World!".getBytes("UTF-8");
+        String encoded = Base64.getEncoder().encodeToString(bytes);
+        byte[] decoded = Base64.getDecoder().decode(encoded);
+        javax.swing.JOptionPane.showMessageDialog(null, encoded + ":" + new String(decoded));
+        
         return "index";
     }
+    /*
+    @RequestMapping(method = RequestMethod.GET, value = "/")
+	public String provideUploadInfo(Model model) {
+		File rootFolder = new File(Application.ROOT);
+		List<String> fileNames = Arrays.stream(rootFolder.listFiles())
+			.map(f -> f.getName())
+			.collect(Collectors.toList());
+
+		model.addAttribute("files",
+			Arrays.stream(rootFolder.listFiles())
+					.sorted(Comparator.comparingLong(f -> -1 * f.lastModified()))
+					.map(f -> f.getName())
+					.collect(Collectors.toList())
+		);
+
+		return "uploadForm";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/")
+	public String handleFileUpload(@RequestParam("name") String name,
+								   @RequestParam("file") MultipartFile file,
+								   RedirectAttributes redirectAttributes) {
+		if (name.contains("/")) {
+			redirectAttributes.addFlashAttribute("message", "Folder separators not allowed");
+			return "redirect:/";
+		}
+		if (name.contains("/")) {
+			redirectAttributes.addFlashAttribute("message", "Relative pathnames not allowed");
+			return "redirect:/";
+		}
+
+		if (!file.isEmpty()) {
+			try {
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File(Application.ROOT + "/" + name)));
+                FileCopyUtils.copy(file.getInputStream(), stream);
+				stream.close();
+				redirectAttributes.addFlashAttribute("message",
+						"You successfully uploaded " + name + "!");
+			}
+			catch (Exception e) {
+				redirectAttributes.addFlashAttribute("message",
+						"You failed to upload " + name + " => " + e.getMessage());
+			}
+		}
+		else {
+			redirectAttributes.addFlashAttribute("message",
+					"You failed to upload " + name + " because the file was empty");
+		}
+
+		return "redirect:/";
+	}
+    */
+    
     @RequestMapping(value = "initalbumartist")
     public String init(){
         logger.debug("init() invoked");        
