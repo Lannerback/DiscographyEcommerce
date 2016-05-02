@@ -8,7 +8,6 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,7 +17,10 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.annotations.CascadeType;
+
 
 /**
  *
@@ -28,7 +30,7 @@ import org.hibernate.validator.constraints.NotBlank;
     @UniqueConstraint(columnNames = {"name","surname"})
 })
 @Entity
-public class Artist {
+public class Artist{
     
     @Id
     @GeneratedValue
@@ -40,7 +42,8 @@ public class Artist {
     @NotBlank
     private String surname;
     
-    @OneToMany(mappedBy="artist",cascade={CascadeType.ALL})
+    @OneToMany(mappedBy="artist")
+    @Cascade(CascadeType.ALL)
     private List<Album> albums = new ArrayList<Album>();
      
     public Artist() {
@@ -120,11 +123,5 @@ public class Artist {
     @Override
     public String toString() {
         return "Artist{" + "uid=" + uid + ", name=" + name + ", surname=" + surname + '}';
-    }
-
-    
-   
-
-   
- 
+    }          
 }

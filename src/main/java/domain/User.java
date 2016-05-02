@@ -50,6 +50,12 @@ public class User implements UserDetails {
     @Column(name="registration_date",nullable=false)
     private Date registration_date= Calendar.getInstance().getTime();  
     
+    /*
+    altrimenti facendola generare (forse) da sql, non so se portabile per ogni database
+    @Column(name = "registration_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdOn = new Date();*/
+    
     @NotBlank    
     @Column(name="username",nullable = false,unique=true)    
     private String username;
@@ -68,7 +74,8 @@ public class User implements UserDetails {
 			inverseJoinColumns = { @JoinColumn(name = "role_id", 
 					nullable = true, updatable = true)}
                     )
-    @Cascade({CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    @Cascade({CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST,
+        CascadeType.SAVE_UPDATE})
     private List<Role> userRoles = new ArrayList<Role>();
 
     @ManyToMany

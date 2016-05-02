@@ -100,6 +100,15 @@ public class MainController {
         userBO.delete(userBO.findUserById(2));
         return "index";
     }
+    @RequestMapping(value = "prova2")
+    public String prova2(){
+        User user = new User("nuoveusr","password",true);
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(new Role("ROLE_NUOVO"));
+        user.setUserRoles(roles);
+        userBO.save(user);
+        return "index";
+    }
     @RequestMapping(value = "initalbumartist")
     public String init(){
         logger.debug("init() invoked");        

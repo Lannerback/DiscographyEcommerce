@@ -54,6 +54,7 @@ public class Album implements java.io.Serializable {
 
     @ManyToOne
     @JoinColumn(name = "artist_uid",nullable = false)
+    @Cascade(CascadeType.SAVE_UPDATE)
     private Artist artist;     
     
     @ManyToMany(mappedBy = "orderedAlbums")

@@ -34,7 +34,9 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer role_id;
     
-    @ManyToMany(mappedBy = "userRoles")  
+    @ManyToMany(mappedBy = "userRoles") 
+    @Cascade({CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST,
+        CascadeType.SAVE_UPDATE})
     private List<User> users=new ArrayList<User>();
     
     @Column(name="role",nullable = false)    
