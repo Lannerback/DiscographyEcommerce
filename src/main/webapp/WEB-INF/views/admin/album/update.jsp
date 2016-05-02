@@ -52,6 +52,13 @@
                     <td><form:input path="producer"/></td>
                     <td><form:errors path="producer" cssStyle="color: #ff0000"/></td>
                 </tr> 
+                
+                <tr>
+                    <td><form:label path="image">Image</form:label></td>
+                    <td><form:input path="image"/></td>
+                    <td><form:errors path="image" cssStyle="color: #ff0000"/></td>
+                </tr>
+                
                 <tr>
                     <td colspan="3">
                         <input type="submit" value="Confirm"/>

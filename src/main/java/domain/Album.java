@@ -18,6 +18,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,6 +26,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.web.multipart.MultipartFile;
 
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"title","year","label","producer","artist_uid"})
@@ -32,8 +34,12 @@ import org.hibernate.validator.constraints.Range;
 @Entity
 public class Album implements java.io.Serializable {
     
+    @Transient
     @Lob
     private String image;
+    
+    
+    MultipartFile file;
     
     @NotBlank
     private String title;
@@ -100,8 +106,26 @@ public class Album implements java.io.Serializable {
         this.uid = uid;
         this.artist = artist;
     }
-              
 
+    public Album(MultipartFile file, String title, String length, String label, String producer, String year, String genre, Integer uid, Artist artist) {
+        this.file = file;
+        this.title = title;
+        this.length = length;
+        this.label = label;
+        this.producer = producer;
+        this.year = year;
+        this.genre = genre;
+        this.uid = uid;
+        this.artist = artist;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }                      
   
     public String getImage() {
         return image;

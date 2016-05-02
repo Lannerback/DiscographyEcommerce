@@ -13,6 +13,7 @@ import domain.Album;
 import domain.Artist;
 import domain.User;
 import domain.Role;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.Base64;
+import javax.enterprise.inject.Model;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileUpload;
+import org.springframework.validation.BindException;
+import org.springframework.web.multipart.MultipartFile;
 
 
 
@@ -114,8 +121,27 @@ public class MainController {
         
         return "index";
     }
+    @RequestMapping("provaupload")
+	public ModelAndView onSubmit(HttpServletRequest request,
+		HttpServletResponse response, Object command, BindException errors)
+		throws Exception {
+ 
+		FileUpload file = (FileUpload)command;
+		
+		MultipartFile multipartFile = file.getFile();
+		
+		String fileName="";
+
+		if(multipartFile!=null){
+			fileName = multipartFile.getOriginalFilename();
+			//do whatever you want
+		}
+		
+		return new ModelAndView("FileUploadSuccess","fileName",fileName);
+	}
+        
     /*
-    @RequestMapping(method = RequestMethod.GET, value = "/")
+    @RequestMapping(method = RequestMethod.GET, value = "/uploadimg")
 	public String provideUploadInfo(Model model) {
 		File rootFolder = new File(Application.ROOT);
 		List<String> fileNames = Arrays.stream(rootFolder.listFiles())
@@ -132,7 +158,7 @@ public class MainController {
 		return "uploadForm";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/")
+	@RequestMapping(method = RequestMethod.POST, value = "/uploadimg")
 	public String handleFileUpload(@RequestParam("name") String name,
 								   @RequestParam("file") MultipartFile file,
 								   RedirectAttributes redirectAttributes) {
@@ -165,8 +191,13 @@ public class MainController {
 		}
 
 		return "redirect:/";
-	}
-    */
+	}*/
+    
+    
+    @RequestMapping(value = "admin/album/upload")
+    public String uplo(){
+        return "admin/album/upload";
+    }
     
     @RequestMapping(value = "initalbumartist")
     public String init(){
