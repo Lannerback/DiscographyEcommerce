@@ -35,11 +35,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-
-/**
- *
- * @author adriano
- */
 @Controller
 public class MainController {
 
@@ -74,7 +69,7 @@ public class MainController {
     public String upload(){
         return "upload";
     }
-    
+        
     
     @RequestMapping(value = "initall")
     public String initall(){
