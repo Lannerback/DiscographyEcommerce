@@ -66,8 +66,7 @@ public class AlbumController {
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Album album,BindingResult bindingResult
-            ,ModelAndView model) {
-         
+            ,ModelAndView model) {         
         
         if (bindingResult.hasErrors()) {
             model.addObject("artists",artistBO.findAllArtists());

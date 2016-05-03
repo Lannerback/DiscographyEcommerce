@@ -26,7 +26,11 @@
         <property name="viewClass" value = "org.springframework.web.servlet.view.tiles3.TilesView" />  
               
       
-    </bean>  
+    </bean> 
+    
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+ 
     <bean id="tilesConfigurer"  
         class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">  
         <property name="definitions">  

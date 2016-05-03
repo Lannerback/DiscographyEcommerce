@@ -70,6 +70,12 @@ public class MainController {
     Artist artist;
     
     
+    @RequestMapping(value = "upload")
+    public String upload(){
+        return "upload";
+    }
+    
+    
     @RequestMapping(value = "initall")
     public String initall(){
         init();
@@ -82,6 +88,7 @@ public class MainController {
         return "index";
     }
  
+    
     @RequestMapping(value={"initusererole"})
     public String init6(){
         logger.debug("iniusererole");
@@ -122,10 +129,11 @@ public class MainController {
         return "index";
     }
     @RequestMapping("provaupload")
-	public ModelAndView onSubmit(Album album, BindException errors)
+	public ModelAndView onSubmit(Album album, BindException errors,
+                @RequestParam("file") MultipartFile imageUpload)
 		throws Exception {
             
-		MultipartFile multipartFile = album.getImagefile();
+		MultipartFile multipartFile = imageUpload;
 		
 		String fileName="";
 

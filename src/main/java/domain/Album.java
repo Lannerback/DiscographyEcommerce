@@ -39,6 +39,7 @@ public class Album implements java.io.Serializable {
     private String image;
     
     @Lob
+    @Column(name = "imagefile", nullable = true)
     MultipartFile imagefile;
     
     @NotBlank
@@ -60,7 +61,6 @@ public class Album implements java.io.Serializable {
 
     @ManyToOne
     @JoinColumn(name = "artist_uid",nullable = false)
-    @Cascade(CascadeType.SAVE_UPDATE)
     private Artist artist;     
     
     @ManyToMany(mappedBy = "orderedAlbums")
