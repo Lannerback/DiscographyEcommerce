@@ -57,7 +57,7 @@
      <!-- JSPs -->
 	<servlet>
 		<servlet-name>403Jsp</servlet-name>
-		<jsp-file>/403.jsp</jsp-file>
+		<jsp-file>/WEB-INF/views/403.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>403Jsp</servlet-name>
@@ -68,7 +68,7 @@
 	<!-- The error page -->
 	<error-page>
 		<error-code>403</error-code>
-		<location>/403</location>
+		<location>/WEB-INF/views/403.jsp</location>
 	</error-page>
     
    

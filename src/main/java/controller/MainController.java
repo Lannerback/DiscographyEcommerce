@@ -124,8 +124,7 @@ public class MainController {
     @RequestMapping("provaupload")
 	public ModelAndView onSubmit(Album album, BindException errors)
 		throws Exception {
- 		
-		
+            
 		MultipartFile multipartFile = album.getImagefile();
 		
 		String fileName="";
