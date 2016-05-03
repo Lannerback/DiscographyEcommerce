@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template imagefile, choose Tools | Templates
  * and open the template in the editor.
  */
 package domain;
@@ -38,8 +38,8 @@ public class Album implements java.io.Serializable {
     @Lob
     private String image;
     
-    
-    MultipartFile file;
+    @Lob
+    MultipartFile imagefile;
     
     @NotBlank
     private String title;
@@ -108,7 +108,7 @@ public class Album implements java.io.Serializable {
     }
 
     public Album(MultipartFile file, String title, String length, String label, String producer, String year, String genre, Integer uid, Artist artist) {
-        this.file = file;
+        this.imagefile = file;
         this.title = title;
         this.length = length;
         this.label = label;
@@ -119,12 +119,12 @@ public class Album implements java.io.Serializable {
         this.artist = artist;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public MultipartFile getImagefile() {
+        return imagefile;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setImagefile(MultipartFile imagefile) {
+        this.imagefile = imagefile;
     }                      
   
     public String getImage() {

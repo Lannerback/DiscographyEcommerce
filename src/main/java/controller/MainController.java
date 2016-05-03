@@ -122,22 +122,21 @@ public class MainController {
         return "index";
     }
     @RequestMapping("provaupload")
-	public ModelAndView onSubmit(HttpServletRequest request,
-		HttpServletResponse response, Object command, BindException errors)
+	public ModelAndView onSubmit(Album album, BindException errors)
 		throws Exception {
- 
-		FileUpload file = (FileUpload)command;
+ 		
 		
-		MultipartFile multipartFile = file.getFile();
+		MultipartFile multipartFile = album.getImagefile();
 		
 		String fileName="";
 
 		if(multipartFile!=null){
 			fileName = multipartFile.getOriginalFilename();
+                        javax.swing.JOptionPane.showMessageDialog(null, fileName);
 			//do whatever you want
 		}
 		
-		return new ModelAndView("FileUploadSuccess","fileName",fileName);
+		return new ModelAndView("admin/album/add");
 	}
         
     /*

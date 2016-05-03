@@ -72,7 +72,8 @@ public class User implements UserDetails {
     @JoinTable(name = "user_roles", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = true, updatable = true) }, 
 			inverseJoinColumns = { @JoinColumn(name = "role_id", 
-					nullable = true, updatable = true)}
+					nullable = true, updatable = true)},
+                        uniqueConstraints={@UniqueConstraint(columnNames = {"user_id","role_id"})}
                     )
     @Cascade({CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST,
         CascadeType.SAVE_UPDATE})
@@ -82,8 +83,8 @@ public class User implements UserDetails {
     @JoinTable(name = "orders", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = true, updatable = true) }, 
 			inverseJoinColumns = { @JoinColumn(name = "album_id", 
-					nullable = true, updatable = true)}                        
-                        )	
+					nullable = true, updatable = true)}                                             
+                        )	    
     @Cascade(CascadeType.SAVE_UPDATE)
     private List<Album> orderedAlbums = new ArrayList<Album>();
     

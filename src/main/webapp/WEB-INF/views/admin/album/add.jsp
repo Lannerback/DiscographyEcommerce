@@ -15,7 +15,7 @@
         <h1>Create cd</h1>
         
         <!-- BINDING MEDIANTE TAG FORM SPRING MVC -->
-        <form:form method="POST" action="${pageContext.request.contextPath}/admin/album/save" commandName="album">
+        <form:form method="POST" action="${pageContext.request.contextPath}/provaupload" enctype="multipart/form-data" commandName="album">
             <table>
                 <form:label path="artist">Artist</form:label>
                 <form:select path="artist.uid">
@@ -55,9 +55,7 @@
                 </tr> 
                
                 <tr>
-                    <td><form:label path="image">Image</form:label></td>
-                    <td><form:input path="image"/></td>
-                    <td><form:errors path="image" cssStyle="color: #ff0000"/></td>
+                    <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
                 </tr> 
                 
                 <tr>
