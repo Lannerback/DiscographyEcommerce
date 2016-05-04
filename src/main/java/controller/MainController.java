@@ -124,10 +124,11 @@ public class MainController {
         return "index";
     }
     @RequestMapping("provaupload")
-	public ModelAndView onSubmit(Album album, BindException errors,
+	public ModelAndView onSubmit(
                 @RequestParam("file") MultipartFile imageUpload)
 		throws Exception {
             
+                //javax.swing.JOptionPane.showMessageDialog(null, imageUpload==null);
 		MultipartFile multipartFile = imageUpload;
 		
 		String fileName="";
@@ -137,8 +138,21 @@ public class MainController {
                         javax.swing.JOptionPane.showMessageDialog(null, fileName);
 			//do whatever you want
 		}
+                firstcd.setTitle("altrotitolo");
+                String encoded = Base64.getEncoder().encodeToString(multipartFile.getBytes());
+                byte[] decoded = Base64.getDecoder().decode(encoded);
+                logger.warn(encoded + ":" + new String(decoded));
+                firstcd.setImagefile(multipartFile.getBytes());
+                firstcd.setImagebase64("data:image/jpeg;base64," + encoded);
+                firstcd.setArtist(artistBO.findByUid(1L));
+                try{
+                    albumBO.save(firstcd);
+                }catch(Exception e){
+                    javax.swing.JOptionPane.showMessageDialog(null, e);
+                    
+                }
 		
-		return new ModelAndView("admin/album/add");
+		return new ModelAndView("upload");
 	}
         
     /*

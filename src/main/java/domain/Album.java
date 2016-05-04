@@ -1,10 +1,11 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template imagefile, choose Tools | Templates
+ * To change this template imagebase64, choose Tools | Templates
  * and open the template in the editor.
  */
 package domain;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,11 +37,15 @@ public class Album implements java.io.Serializable {
     
     @Transient
     @Lob
-    private String image;
+    private String imagepath;
+    
+    @Lob
+    @Column(name = "imagebase64", nullable = true)
+    private String imagebase64;
     
     @Lob
     @Column(name = "imagefile", nullable = true)
-    MultipartFile imagefile;
+    private byte[] imagefile;
     
     @NotBlank
     private String title;
@@ -71,15 +76,16 @@ public class Album implements java.io.Serializable {
         
     }
     
-    public Album(String title, String length, String year, String genre,
-            String label, String producer, Artist artist) {
+    public Album(Artist artist,String title, String length, String year, String genre,
+            String label, String producer ) {
+        this.artist = artist;
         this.title = title;
         this.length = length;
         this.year = year;
         this.genre = genre;
         this.label = label;
         this.producer = producer;        
-        this.artist = artist;
+        
     }
 
     public Album(String title, String length, String label, String producer, 
@@ -95,8 +101,9 @@ public class Album implements java.io.Serializable {
         this.users = users;
     }
 
-    public Album(String image, String title, String length, String label, String producer, String year, String genre, Integer uid, Artist artist) {
-        this.image = image;
+    public Album(String image, String title, String length, String label,
+            String producer, String year, String genre, Integer uid, Artist artist) {
+        this.imagepath = image;
         this.title = title;
         this.length = length;
         this.label = label;
@@ -107,8 +114,21 @@ public class Album implements java.io.Serializable {
         this.artist = artist;
     }
 
-    public Album(MultipartFile file, String title, String length, String label, String producer, String year, String genre, Integer uid, Artist artist) {
-        this.imagefile = file;
+    public Album(String title, String length, String label, String producer,
+            String year, String genre, Integer uid, Artist artist,String file) {                
+        this.title = title;
+        this.length = length;
+        this.label = label;
+        this.producer = producer;
+        this.year = year;
+        this.genre = genre;
+        this.uid = uid;
+        this.artist = artist;
+        this.imagebase64 = file;
+    }
+
+    public Album(byte[] imagefile, String title, String length, String label, String producer, String year, String genre, Integer uid, Artist artist) {
+        this.imagefile = imagefile;
         this.title = title;
         this.length = length;
         this.label = label;
@@ -119,20 +139,31 @@ public class Album implements java.io.Serializable {
         this.artist = artist;
     }
 
-    public MultipartFile getImagefile() {
+    public byte[] getImagefile() {
         return imagefile;
     }
 
-    public void setImagefile(MultipartFile imagefile) {
+    public void setImagefile(byte[] imagefile) {
         this.imagefile = imagefile;
-    }                      
-  
-    public String getImage() {
-        return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    
+    
+    
+    public String getImagebase64() {
+        return imagebase64;
+    }
+
+    public void setImagebase64(String imagebase64){
+        this.imagebase64 = imagebase64;
+    }                      
+  
+    public String getImagepath() {
+        return imagepath;
+    }
+
+    public void setImagepath(String imagepath) {
+        this.imagepath = imagepath;
     }    
      
    public Integer getUid() {
