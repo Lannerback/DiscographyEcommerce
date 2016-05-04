@@ -83,6 +83,22 @@ public class MainController {
         return "index";
     }
  
+     @RequestMapping(value = "prova")
+    public String prova(){
+        userBO.delete(userBO.findUserById(2));
+        return "index";
+    }
+    
+    @RequestMapping(value = "prova2")
+    public String prova2() throws UnsupportedEncodingException{
+        byte[] bytes = "Hello, World!".getBytes("UTF-8");
+        String encoded = Base64.getEncoder().encodeToString(bytes);
+        byte[] decoded = Base64.getDecoder().decode(encoded);
+        javax.swing.JOptionPane.showMessageDialog(null, encoded + ":" + new String(decoded));
+        
+        return "index";
+    }
+    
     
     @RequestMapping(value={"initusererole"})
     public String init6(){
@@ -109,20 +125,8 @@ public class MainController {
         return "index";
     }
     
-    @RequestMapping(value = "prova")
-    public String prova(){
-        userBO.delete(userBO.findUserById(2));
-        return "index";
-    }
-    @RequestMapping(value = "prova2")
-    public String prova2() throws UnsupportedEncodingException{
-        byte[] bytes = "Hello, World!".getBytes("UTF-8");
-        String encoded = Base64.getEncoder().encodeToString(bytes);
-        byte[] decoded = Base64.getDecoder().decode(encoded);
-        javax.swing.JOptionPane.showMessageDialog(null, encoded + ":" + new String(decoded));
-        
-        return "index";
-    }
+   
+    
     @RequestMapping("provaupload")
 	public ModelAndView onSubmit(
                 @RequestParam("file") MultipartFile imageUpload)
@@ -141,7 +145,7 @@ public class MainController {
                 firstcd.setTitle("altrotitolo");
                 String encoded = Base64.getEncoder().encodeToString(multipartFile.getBytes());
                 byte[] decoded = Base64.getDecoder().decode(encoded);
-                logger.warn(encoded + ":" + new String(decoded));
+                logger.warn(new String(decoded));
                 firstcd.setImagefile(multipartFile.getBytes());
                 firstcd.setImagebase64("data:image/jpeg;base64," + encoded);
                 firstcd.setArtist(artistBO.findByUid(1L));
