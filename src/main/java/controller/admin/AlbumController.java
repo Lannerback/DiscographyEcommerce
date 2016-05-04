@@ -8,12 +8,14 @@ package controller.admin;
 import business.AlbumBO;
 import business.ArtistBO;
 import domain.Album;
+import java.util.Base64;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -59,14 +62,14 @@ public class AlbumController {
     @RequestMapping("add")
     public ModelAndView add(ModelAndView model) {
         model.addObject("artists", artistBO.findAllArtists());
-        model.addObject("album",new Album());
-        model.setViewName("admin/album/add");
+        model.addObject("album",new Album());       
+        model.setViewName("admin/album/add");       
         return model;
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Album album,BindingResult bindingResult
-            ,ModelAndView model) {         
+            ,ModelAndView model,@RequestParam("file") MultipartFile imageUpload) {         
         
         if (bindingResult.hasErrors()) {
             model.addObject("artists",artistBO.findAllArtists());
@@ -81,6 +84,18 @@ public class AlbumController {
             model.setViewName("admin/album/add");
             return model;          
             }
+            
+            MultipartFile multipartFile = imageUpload;
+		
+            String fileName="";
+
+            if(multipartFile!=null){
+                fileName = multipartFile.getOriginalFilename();
+                javax.swing.JOptionPane.showMessageDialog(null, fileName);
+                //do whatever you want
+            }
+            String encoded = Base64.getEncoder().encodeToString(multipartFile.getBytes());
+            album.setImagebase64(encoded);
             albumBO.save(album);
         }catch(Exception e){
             javax.swing.JOptionPane.showMessageDialog(null, "errore inserimento: " + e.getMessage());

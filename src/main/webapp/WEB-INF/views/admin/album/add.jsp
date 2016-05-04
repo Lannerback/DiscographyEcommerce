@@ -13,9 +13,9 @@
     </head>
     <body>
         <h1>Create cd</h1>
-        
+
         <!-- BINDING MEDIANTE TAG FORM SPRING MVC -->
-        <form:form method="POST" action="${pageContext.request.contextPath}/admin/album/save" commandName="album">
+        <form:form method="POST" action="${pageContext.request.contextPath}/admin/album/save" enctype="multipart/form-data" commandName="album">
             <table>
                 <form:label path="artist">Artist</form:label>
                 <form:select path="artist.uid">
@@ -41,27 +41,30 @@
                     <td><form:input path="genre"/></td>
                     <td><form:errors path="genre" cssStyle="color: #ff0000"/></td>
                 </tr> 
-                
+
                 <tr>
                     <td><form:label path="label">Label</form:label></td>
                     <td><form:input path="label"/></td>
                     <td><form:errors path="label" cssStyle="color: #ff0000"/></td>
                 </tr> 
-                
+
                 <tr>
                     <td><form:label path="producer">Producer</form:label></td>
                     <td><form:input path="producer"/></td>
                     <td><form:errors path="producer" cssStyle="color: #ff0000"/></td>
                 </tr> 
+                
+                <tr>
+                    <td>File to upload:</td><td><input type="file" name="file" /></td>
+                </tr>
                 <tr>
                     <td colspan="3">
                         <input type="submit" value="Confirm"/>
                     </td>
                 </tr>               
-            </table> 
-                
-        </form:form>
-        
+            </table>            
+        </form:form>        
+
         <p>
             <a href="${pageContext.request.contextPath}/admin/home">Gestione</a>
         </p>
