@@ -8,6 +8,7 @@ package controller.admin;
 import business.AlbumBO;
 import business.ArtistBO;
 import domain.Album;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import javax.validation.Valid;
@@ -15,7 +16,6 @@ import javax.validation.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -62,20 +62,38 @@ public class AlbumController {
     @RequestMapping("add")
     public ModelAndView add(ModelAndView model) {
         model.addObject("artists", artistBO.findAllArtists());
-        model.addObject("album",new Album());       
-        model.setViewName("admin/album/add");       
+        model.addObject("album",new Album());
+        model.setViewName("admin/album/add");
         return model;
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Album album,BindingResult bindingResult
-            ,ModelAndView model,@RequestParam("file") MultipartFile imageUpload) {         
+            ,ModelAndView model,@RequestParam(value="file") MultipartFile imagefile) {         
         
         if (bindingResult.hasErrors()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "errr");
             model.addObject("artists",artistBO.findAllArtists());
             model.setViewName("admin/album/add");
             return model;
         }
+        
+        
+        if(imagefile!=null){
+                            
+            String encoded = null;
+            try{
+                encoded = Base64.getEncoder().encodeToString(imagefile.getBytes());
+                album.setImagefile(imagefile.getBytes());
+            }catch(IOException io){
+                logger.error(io);
+                javax.swing.JOptionPane.showMessageDialog(null, io);
+            }
+            album.setImagebase64("data:image/jpeg;base64," + encoded);            
+        }
+        
+        
+        
         try{
             if(albumBO.existAlbum(album)){            
             javax.swing.JOptionPane.showMessageDialog(null,"CD already exist","Error duplicated CD",
@@ -84,18 +102,6 @@ public class AlbumController {
             model.setViewName("admin/album/add");
             return model;          
             }
-            
-            MultipartFile multipartFile = imageUpload;
-		
-            String fileName="";
-
-            if(multipartFile!=null){
-                fileName = multipartFile.getOriginalFilename();
-                javax.swing.JOptionPane.showMessageDialog(null, fileName);
-                //do whatever you want
-            }
-            String encoded = Base64.getEncoder().encodeToString(multipartFile.getBytes());
-            album.setImagebase64(encoded);
             albumBO.save(album);
         }catch(Exception e){
             javax.swing.JOptionPane.showMessageDialog(null, "errore inserimento: " + e.getMessage());

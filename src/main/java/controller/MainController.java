@@ -129,7 +129,7 @@ public class MainController {
     
     @RequestMapping("provaupload")
 	public ModelAndView onSubmit(
-                @RequestParam("file") MultipartFile imageUpload)
+                @RequestParam("imagefile") MultipartFile imageUpload)
 		throws Exception {
             
                 //javax.swing.JOptionPane.showMessageDialog(null, imageUpload==null);

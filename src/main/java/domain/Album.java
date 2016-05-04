@@ -37,7 +37,7 @@ public class Album implements java.io.Serializable {
     
     @Transient
     @Lob
-    private String imagepath;
+    private MultipartFile imagepath;
     
     @Lob
     @Column(name = "imagebase64", nullable = true)
@@ -101,7 +101,7 @@ public class Album implements java.io.Serializable {
         this.users = users;
     }
 
-    public Album(String image, String title, String length, String label,
+    public Album(MultipartFile image, String title, String length, String label,
             String producer, String year, String genre, Integer uid, Artist artist) {
         this.imagepath = image;
         this.title = title;
@@ -158,11 +158,11 @@ public class Album implements java.io.Serializable {
         this.imagebase64 = imagebase64;
     }                      
   
-    public String getImagepath() {
+    public MultipartFile getImagepath() {
         return imagepath;
     }
 
-    public void setImagepath(String imagepath) {
+    public void setImagepath(MultipartFile imagepath) {
         this.imagepath = imagepath;
     }    
      
