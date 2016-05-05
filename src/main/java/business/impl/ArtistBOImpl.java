@@ -4,10 +4,14 @@ import java.util.List;
 import business.ArtistBO;
 import dao.ArtistDAO;
 import domain.Artist;
+import java.io.File;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import util.FileManager;
 
 /**
  *
@@ -18,17 +22,21 @@ import org.springframework.stereotype.Service;
 public class ArtistBOImpl implements ArtistBO {
     
     @Autowired
-    private ArtistDAO artistDao;
-
+    private ArtistDAO artistDao;   
+    
+    @Autowired
+    private FileManager fileManager;
+    
     static final Logger logger = Logger.getLogger(ArtistBOImpl.class);
 
-    public void save(Artist artist) {
-        try {
+    public void save(Artist artist) {        
+        try {            
             artistDao.save(artist);
         } catch (Exception e) {
             logger.error(e);
             throw e;
-        }
+        }        
+        fileManager
     }
 
     public void update(Artist artist)   {

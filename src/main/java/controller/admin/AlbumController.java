@@ -8,9 +8,11 @@ package controller.admin;
 import business.AlbumBO;
 import business.ArtistBO;
 import domain.Album;
+import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.Validator;
 import org.apache.log4j.Logger;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import util.FileManager;
 
 
 
@@ -39,7 +42,11 @@ public class AlbumController {
     @Autowired
     @Qualifier("artistBO")
     private ArtistBO artistBO;
-     
+    
+    @Autowired
+    @Qualifier("fileManager")
+    private FileManager fileManager;
+    
     static final Logger logger = Logger.getLogger(AlbumController.class);
 
     Validator validator;
@@ -69,7 +76,7 @@ public class AlbumController {
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Album album,BindingResult bindingResult
-            ,ModelAndView model,@RequestParam(value="file") MultipartFile imagefile) {         
+            ,ModelAndView model,@RequestParam(value="file") MultipartFile imagefile,HttpServletRequest request) {         
         
         if (bindingResult.hasErrors()) {
             javax.swing.JOptionPane.showMessageDialog(null, "errr");
@@ -77,7 +84,10 @@ public class AlbumController {
             model.setViewName("admin/album/add");
             return model;
         }
-        
+
+        String subPath = "/covers/" + album.getArtist().getName() +album.getArtist().getSurname();
+        fileManager.saveFile(imagefile,subPath);            
+
         
         if(imagefile!=null){
                             

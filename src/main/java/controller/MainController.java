@@ -63,6 +63,13 @@ public class MainController {
     @Qualifier(value = "FirstArtist")
     Artist artist;
 
+    /* PER CRIPTAZIONE
+    byte[] bytesOfMessage = yourString.getBytes("UTF-8");
+
+MessageDigest md = MessageDigest.getInstance("MD5");
+byte[] thedigest = md.digest(bytesOfMessage);
+    */
+    
     @RequestMapping(value = "upload")
     public String upload() {
         return "upload";
@@ -86,13 +93,13 @@ public class MainController {
     
     @RequestMapping(value = "initall")
     public String initall(HttpServletRequest request) {
+        createimagedir(request);
         init();
         init2();
         init3();
         init4(1);
         init5(1);
-        init6();
-        createimagedir(request);
+        init6();        
 
         return "index";
     }

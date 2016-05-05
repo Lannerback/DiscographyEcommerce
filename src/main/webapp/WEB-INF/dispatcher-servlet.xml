@@ -62,4 +62,9 @@
         <constructor-arg name="producer" value="produttore"/>         
     </bean>
     
+    <bean id="fileManager" 
+          class="util.FileManager">
+        <property name="path" value = "/home/adriano/SERVERFILES"/>
+    </bean>
+    
 </beans>
