@@ -34,10 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 })
 @Entity
 public class Album implements java.io.Serializable {
-    
-    @Transient
-    @Lob
-    private MultipartFile imagepath;
+            
+    private String imagepath;
     
     @Lob
     @Column(name = "imagebase64", nullable = true)
@@ -101,7 +99,7 @@ public class Album implements java.io.Serializable {
         this.users = users;
     }
 
-    public Album(MultipartFile image, String title, String length, String label,
+    public Album(String image, String title, String length, String label,
             String producer, String year, String genre, Integer uid, Artist artist) {
         this.imagepath = image;
         this.title = title;
@@ -158,11 +156,11 @@ public class Album implements java.io.Serializable {
         this.imagebase64 = imagebase64;
     }                      
   
-    public MultipartFile getImagepath() {
+    public String getImagepath() {
         return imagepath;
     }
 
-    public void setImagepath(MultipartFile imagepath) {
+    public void setImagepath(String imagepath) {
         this.imagepath = imagepath;
     }    
      

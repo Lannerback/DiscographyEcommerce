@@ -6,7 +6,7 @@
         </div>
 
         <div>
-            <form method="POST" enctype="multipart/form-data" action="/DiscographyEcommerce/provaupload">
+            <form method="POST" enctype="multipart/form-data" action="/DiscographyEcommerce/provaupload2">
                 <table>
                     <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
                     <tr><td>Name:</td><td><input type="text" name="name" /></td></tr>
