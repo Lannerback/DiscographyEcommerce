@@ -36,7 +36,12 @@ public class ArtistBOImpl implements ArtistBO {
             logger.error(e);
             throw e;
         }        
-        fileManager
+        String subPath = "/cover/" + artist.getName() + artist.getSurname();
+        try{
+            fileManager.makeDir(subPath);
+        }catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(null, "cannot create artist dir: " + e.getMessage());
+        }
     }
 
     public void update(Artist artist)   {

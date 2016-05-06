@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileUpload;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
+import util.FileManager;
 
 @Controller
 public class MainController {
@@ -52,9 +53,7 @@ public class MainController {
     @Autowired
     @Qualifier("roleBO")
     private RoleBO roleBO;
-
-    static final Logger logger = Logger.getLogger(MainController.class);
-
+    
     @Autowired
     @Qualifier(value = "FirstCD")
     Album firstcd;
@@ -62,6 +61,13 @@ public class MainController {
     @Autowired
     @Qualifier(value = "FirstArtist")
     Artist artist;
+    
+    @Autowired
+    @Qualifier("fileManager")
+    private FileManager fileManager;
+    static final Logger logger = Logger.getLogger(MainController.class);
+
+  
 
     /* PER CRIPTAZIONE
     byte[] bytesOfMessage = yourString.getBytes("UTF-8");
@@ -92,8 +98,8 @@ byte[] thedigest = md.digest(bytesOfMessage);
     
     
     @RequestMapping(value = "initall")
-    public String initall(HttpServletRequest request) {
-        createimagedir(request);
+    public String initall() {
+        createimagedir();
         init();
         init2();
         init3();
@@ -105,19 +111,8 @@ byte[] thedigest = md.digest(bytesOfMessage);
     }
 
     @RequestMapping("createdir")
-    public String createimagedir(HttpServletRequest request){
-        String path = request.getServletContext().getRealPath("/");
-        File photoDir = new File(path + "/covers");
-        if (!photoDir.exists()){
-          boolean success = photoDir.mkdir();
-          if(success){
-            System.out.println("Directory creata into: " + photoDir.getPath());
-          }else{
-              System.out.println("Impossibile creare la directory: " + photoDir.getPath());
-          }
-        }else{
-            System.out.println("Directory già esistente");
-        }
+    public String createimagedir(){
+        fileManager.makeDir("/cover");
         return "index";
     }
 

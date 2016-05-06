@@ -8,9 +8,12 @@ package controller.admin;
 import business.AlbumBO;
 import business.ArtistBO;
 import domain.Album;
+import domain.Artist;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -27,14 +30,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import util.ClientResponse;
 import util.FileManager;
 
-
-
 @Controller
-@RequestMapping(value="admin/album")
+@RequestMapping(value = "admin/album")
 public class AlbumController {
-             
+
     @Autowired
     @Qualifier("albumBO")
     private AlbumBO albumBO;
@@ -42,146 +44,152 @@ public class AlbumController {
     @Autowired
     @Qualifier("artistBO")
     private ArtistBO artistBO;
-    
+
     @Autowired
     @Qualifier("fileManager")
     private FileManager fileManager;
-    
+
     static final Logger logger = Logger.getLogger(AlbumController.class);
 
-    Validator validator;
-    
+
     @RequestMapping(value = {"", "list"})
-    public ModelAndView AlbumList(ModelAndView model) {   
-        logger.debug("album AlbumList() invoked");
-    List<Album> albums;
-    try {
-     albums = albumBO.findAllAlbums();
-     model.addObject("albums",albums);
-     model.setViewName("admin/album/list");
-    } catch(Exception e) {
-      logger.error(e);
-       model.setViewName("error");
+    public ModelAndView AlbumList(ModelAndView model) {
+        List<Album> albums;
+        try {
+            albums = albumBO.findAllAlbums();
+            model.addObject("albums", albums);
+            model.setViewName("admin/album/list");
+        } catch (Exception e) {
+            logger.error(e);
+            model.setViewName("error");
+        }
+        return model;
     }
-    return model;       
-    }
-    
+
     @RequestMapping("add")
     public ModelAndView add(ModelAndView model) {
         model.addObject("artists", artistBO.findAllArtists());
-        model.addObject("album",new Album());
+        model.addObject("album", new Album());
         model.setViewName("admin/album/add");
         return model;
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public ModelAndView save(@Valid Album album,BindingResult bindingResult
-            ,ModelAndView model,@RequestParam(value="file") MultipartFile imagefile,HttpServletRequest request) {         
-        
+    public ModelAndView save(@Valid Album album, BindingResult bindingResult, ModelAndView model, @RequestParam(value = "file") MultipartFile imagefile, HttpServletRequest request) {
+
         if (bindingResult.hasErrors()) {
-            javax.swing.JOptionPane.showMessageDialog(null, "errr");
-            model.addObject("artists",artistBO.findAllArtists());
+            model.addObject("response", new ClientResponse(false, "Field Errors"));
+            model.addObject("artists", artistBO.findAllArtists());
             model.setViewName("admin/album/add");
             return model;
         }
 
-        String subPath = "/covers/" + album.getArtist().getName() +album.getArtist().getSurname();
-        fileManager.saveFile(imagefile,subPath);            
+            if (albumBO.existAlbum(album)) {
+                model.addObject("response", new ClientResponse(false, "CD already exist \nError duplicated CD"));
+                model.addObject("artists", artistBO.findAllArtists());
+                model.setViewName("admin/album/add");
+                return model;
+            }   
 
-        
-        if(imagefile!=null){
-                            
+        if (imagefile != null) {
+            Artist artist = artistBO.findByUid(album.getArtist().getUid());
+            String subPath = "/cover/" + artist.getName() + artist.getSurname() + "/" + album.getTitle() + "/";
+            try {
+                fileManager.makeDir(subPath);
+                Long imagePath = new Date().getTime();
+                fileManager.saveFile(imagefile, subPath + imagePath);
+                album.setImagepath(artist.getName() + artist.getSurname() + "/" + imagePath);
+                albumBO.save(album); 
+            } catch (FileNotFoundException e) {
+                logger.error(e);
+            } catch (IOException e) {
+                logger.error(e);
+            }
+        }
+
+        if (imagefile != null) {
+
             String encoded = null;
-            try{
+            try {
                 encoded = Base64.getEncoder().encodeToString(imagefile.getBytes());
                 album.setImagefile(imagefile.getBytes());
-            }catch(IOException io){
+            } catch (IOException io) {
                 logger.error(io);
                 javax.swing.JOptionPane.showMessageDialog(null, io);
             }
-            album.setImagebase64("data:image/jpeg;base64," + encoded);            
+            album.setImagebase64("data:image/jpeg;base64," + encoded);
         }
-        
-        
-        
-        try{
-            if(albumBO.existAlbum(album)){            
-            javax.swing.JOptionPane.showMessageDialog(null,"CD already exist","Error duplicated CD",
-                   javax.swing.JOptionPane.ERROR_MESSAGE);  
-            model.addObject("artists",artistBO.findAllArtists());
-            model.setViewName("admin/album/add");
-            return model;          
-            }
-            albumBO.save(album);
-        }catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(null, "errore inserimento: " + e.getMessage());
-            logger.error(e);
-        }
-        
-        model.addObject("albums",albumBO.findAllAlbums());
+
+        model.addObject("albums", albumBO.findAllAlbums());
         model.setViewName("redirect:list");
         return model;
 
     }
 
-
-
     @RequestMapping(value = "remove", method = RequestMethod.POST)
     public ModelAndView remove(
-            @RequestParam(value = "removecd",required=true) Integer removecd) {
-        
-        try{
+            @RequestParam(value = "removecd", required = true) Integer removecd,ModelAndView model) {
+
+        try {            
+            Album album = albumBO.findByUid(removecd);
             albumBO.delete(removecd);
-        }catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
+            Artist artist = artistBO.findByUid(album.getArtist().getUid());
+            String filePath = "/cover/" + artist.getName() + artist.getSurname() + "/" + album.getTitle();           
+            fileManager.deleteDirOrFile(filePath);
+            
+        }catch(FileNotFoundException e){
+            logger.error(e);
+            model.addObject("response",new ClientResponse(false, e.getMessage()));
+        } 
+        catch (Exception e) {
+            logger.error(e);          
+            model.addObject("response",new ClientResponse(false, e.getMessage()));
         }
-                   
-        return new ModelAndView("admin/album/list").addObject("albums",albumBO.findAllAlbums());
+
+        model.addObject("albums", albumBO.findAllAlbums());
+        model.setViewName("admin/album/list");
+        return model;
     }
-   
-    
+
     @RequestMapping(value = "update/{updateid}")
     public ModelAndView update(ModelAndView model,
-        @PathVariable Integer updateid){
-        
-        model.addObject("updateid", updateid);        
-        try{
-            model.addObject("artists",artistBO.findAllArtists());
-            model.addObject("album",albumBO.findByUid(updateid));
+            @PathVariable Integer updateid) {
+
+        model.addObject("updateid", updateid);
+        try {
+            model.addObject("artists", artistBO.findAllArtists());
+            model.addObject("album", albumBO.findByUid(updateid));
             model.setViewName("admin/album/update");
 
-        }catch(Exception e){
+        } catch (Exception e) {
             logger.error(e);
             javax.swing.JOptionPane.showMessageDialog(null, "cd non trovato: errore");
-            model.addObject("albums",albumBO.findAllAlbums());
-            model.setViewName("admin/album/list");            
-        }                
-        return model;                               
+            model.addObject("albums", albumBO.findAllAlbums());
+            model.setViewName("admin/album/list");
+        }
+        return model;
 
-        
     }
-  
-    
+
     @RequestMapping(value = "saveupdate")
-    public ModelAndView saveupdate(@Valid @ModelAttribute("album") Album cd,ModelAndView mav,
-            BindingResult bindingResult){                                                    
-            
+    public ModelAndView saveupdate(@Valid @ModelAttribute("album") Album cd, ModelAndView mav,
+            BindingResult bindingResult) {
+
         javax.swing.JOptionPane.showMessageDialog(null, cd);
         if (bindingResult.hasErrors()) {
-            mav.addObject("artists",artistBO.findAllArtists());
+            mav.addObject("artists", artistBO.findAllArtists());
             mav.setViewName("admin/album/add");
             return mav;
         }
-        try{             
+        try {
             albumBO.update(cd);
-        }catch(Exception e){
+        } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
             logger.error(e);
         }
         mav.setViewName("admin/album/list");
-        mav.addObject("albums",albumBO.findAllAlbums());
+        mav.addObject("albums", albumBO.findAllAlbums());
         return mav;
     }
-        
-    
+
 }

@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -51,6 +52,7 @@ public class Album implements java.io.Serializable {
     private String length,label,producer;
     
     @Size(min=0,max=4)
+    @Pattern(regexp="^[0-9]*$")
     private String year;
     
     @Size(min=2,max=15)
@@ -99,9 +101,9 @@ public class Album implements java.io.Serializable {
         this.users = users;
     }
 
-    public Album(String image, String title, String length, String label,
+    public Album(String imagepath, String title, String length, String label,
             String producer, String year, String genre, Integer uid, Artist artist) {
-        this.imagepath = image;
+        this.imagepath = imagepath;
         this.title = title;
         this.length = length;
         this.label = label;

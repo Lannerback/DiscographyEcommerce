@@ -1,12 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
         <title>Update cd</title>
-    </head>
-    <body>
+    
         <h1>Update cd</h1>
         
         <!-- BINDING MEDIANTE TAG FORM SPRING MVC -->
@@ -71,5 +67,4 @@
         <p>
             <a href="${pageContext.request.contextPath}/admin/album/list">Gestione cds</a>
         </p>
-    </body>
-</html>
+    
