@@ -91,21 +91,7 @@ public class AlbumController {
                 return model;
             }   
 
-        if (imagefile != null) {
-            Artist artist = artistBO.findByUid(album.getArtist().getUid());
-            String subPath = "/cover/" + artist.getName() + artist.getSurname() + "/" + album.getTitle() + "/";
-            try {
-                fileManager.makeDir(subPath);
-                Long imagePath = new Date().getTime();
-                fileManager.saveFile(imagefile, subPath + imagePath);
-                album.setImagepath(artist.getName() + artist.getSurname() + "/" + imagePath);
-                albumBO.save(album); 
-            } catch (FileNotFoundException e) {
-                logger.error(e);
-            } catch (IOException e) {
-                logger.error(e);
-            }
-        }
+        
 
         if (imagefile != null) {
 
@@ -120,6 +106,22 @@ public class AlbumController {
             album.setImagebase64("data:image/jpeg;base64," + encoded);
         }
 
+        if (imagefile != null) {
+            Artist artist = artistBO.findByUid(album.getArtist().getUid());
+            String subPath = "/cover/" + artist.getName() + artist.getSurname() + "/" + album.getTitle() + "/";
+            try {
+                fileManager.makeDir(subPath);
+                Long imagePath = new Date().getTime();
+                fileManager.saveFile(imagefile, subPath + imagePath);
+                album.setImagepath(artist.getName() + artist.getSurname() + "/" + album.getTitle() + "/" + imagePath);
+                albumBO.save(album); 
+            } catch (FileNotFoundException e) {
+                logger.error(e);
+            } catch (IOException e) {
+                logger.error(e);
+            }
+        }
+        
         model.addObject("albums", albumBO.findAllAlbums());
         model.setViewName("redirect:list");
         return model;
