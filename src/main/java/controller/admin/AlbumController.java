@@ -128,9 +128,9 @@ public class AlbumController {
 
     }
 
-    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    @RequestMapping(value = "remove/{removeid}", method = RequestMethod.GET)
     public ModelAndView remove(
-            @RequestParam(value = "removecd", required = true) Integer removecd,ModelAndView model) {
+            @PathVariable(value = "removeid") Integer removecd,ModelAndView model) {
 
         try {            
             Album album = albumBO.findByUid(removecd);

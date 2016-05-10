@@ -68,8 +68,8 @@
 
                     <td>
 
-                        <form action="${pageContext.request.contextPath}/admin/album/remove" method="post">                            
-                            <input type="hidden" name="removecd" value="${cd.uid}"/>
+                        <form action="${pageContext.request.contextPath}/admin/album/remove/${cd.uid}" method="get">                            
+                            <!--input type="hidden" name="removecd" value="${cd.uid}"/-->
                             <input type="submit" name="removebutton" value="remove"/>
                         </form>
                     </td>
