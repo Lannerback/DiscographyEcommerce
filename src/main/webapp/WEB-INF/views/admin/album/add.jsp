@@ -42,7 +42,9 @@
                     <td><form:errors path="length" cssStyle="color: #ff0000"/></td>
                 </tr> 
                 <tr>
-                    <td><form:label path="year">Year</form:label></td>
+                    <!--td><fmt:formatDate value="${album.year}" var="dateString" pattern="dd/MM/yyyy" /></td-->
+                    <!--td><form:input path="year" value="${dateString}"/></td-->
+                    <td><form:label path="year" >Year</form:label></td>
                     <td><form:input path="year"/></td>
                     <td><form:errors path="year" cssStyle="color: #ff0000"/></td>
                 </tr>                 

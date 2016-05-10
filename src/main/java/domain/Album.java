@@ -7,6 +7,7 @@ package domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -51,9 +52,9 @@ public class Album implements java.io.Serializable {
     
     private String length,label,producer;
     
-    @Size(min=0,max=4)
-    @Pattern(regexp="^[0-9]*$")
-    private String year;
+    //@Size(min=0,max=4)
+    //@Pattern(regexp="^[0-9]*$")
+    private Date year;
     
     @Size(min=2,max=15)
     private String genre;
@@ -76,7 +77,7 @@ public class Album implements java.io.Serializable {
         
     }
     
-    public Album(Artist artist,String title, String length, String year, String genre,
+    public Album(Artist artist,String title, String length, Date year, String genre,
             String label, String producer ) {
         this.artist = artist;
         this.title = title;
@@ -89,7 +90,7 @@ public class Album implements java.io.Serializable {
     }
 
     public Album(String title, String length, String label, String producer, 
-            String year, String genre, Integer uid, Artist artist, List<User> users) {
+            Date year, String genre, Integer uid, Artist artist, List<User> users) {
         this.title = title;
         this.length = length;
         this.label = label;
@@ -102,7 +103,7 @@ public class Album implements java.io.Serializable {
     }
 
     public Album(String imagepath, String title, String length, String label,
-            String producer, String year, String genre, Integer uid, Artist artist) {
+            String producer, Date year, String genre, Integer uid, Artist artist) {
         this.imagepath = imagepath;
         this.title = title;
         this.length = length;
@@ -115,7 +116,7 @@ public class Album implements java.io.Serializable {
     }
 
     public Album(String title, String length, String label, String producer,
-            String year, String genre, Integer uid, Artist artist,String file) {                
+            Date year, String genre, Integer uid, Artist artist,String file) {                
         this.title = title;
         this.length = length;
         this.label = label;
@@ -127,7 +128,7 @@ public class Album implements java.io.Serializable {
         this.imagebase64 = file;
     }
 
-    public Album(byte[] imagefile, String title, String length, String label, String producer, String year, String genre, Integer uid, Artist artist) {
+    public Album(byte[] imagefile, String title, String length, String label, String producer, Date year, String genre, Integer uid, Artist artist) {
         this.imagefile = imagefile;
         this.title = title;
         this.length = length;
@@ -207,11 +208,11 @@ public class Album implements java.io.Serializable {
         this.length = length;
     }
 
-    public String getYear() {
+    public Date getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(Date year) {
         this.year = year;
     }
 

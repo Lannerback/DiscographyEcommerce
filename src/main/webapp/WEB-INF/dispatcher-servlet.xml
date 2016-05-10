@@ -56,7 +56,7 @@
         <constructor-arg name="artist" ref="FirstArtist" /> 
         <constructor-arg name="title" value="primoalbum"/> 
         <constructor-arg name="length" value="13:45"/> 
-        <constructor-arg name="year" value="2556"/> 
+        <constructor-arg name="year" value="1/1/2000 "/> 
         <constructor-arg name="genre" value="genere"/> 
         <constructor-arg name="label" value="etichetta"/> 
         <constructor-arg name="producer" value="produttore"/>         
