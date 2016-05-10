@@ -21,8 +21,8 @@
                         ${artist.surname}
                     </td>  
                      <td>
-                        <form action="${pageContext.request.contextPath}/admin/artist/remove" method="post">                            
-                            <input type="hidden" name="removeartist" value="${artist.uid}"/>
+                        <form action="${pageContext.request.contextPath}/admin/artist/remove/${artist.uid}" method="get">                            
+                            <!--input type="hidden" name="removeartist" value="${artist.uid}"/-->
                             <input type="submit" value="remove" />
                         </form>
                     </td>

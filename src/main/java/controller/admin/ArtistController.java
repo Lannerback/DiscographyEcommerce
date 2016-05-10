@@ -79,9 +79,9 @@ public class ArtistController {
 
     }
 
-    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    @RequestMapping(value = "remove/{removeid}", method = RequestMethod.GET)
     public ModelAndView remove(
-            @RequestParam(value = "removeartist", required = true) Long removeartist, ModelAndView model) {
+            @PathVariable(value = "removeid") Long removeartist,ModelAndView model) {
 
         try {
             Artist artist = artistBO.findByUid(removeartist);
