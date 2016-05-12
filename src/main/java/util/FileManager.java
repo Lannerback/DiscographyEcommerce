@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
+import javax.servlet.http.Part;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,6 +45,18 @@ public class FileManager {
     public void saveFile(MultipartFile image, String subPath) throws FileAlreadyExistsException, IOException {
         try {
             image.transferTo(new File(path + subPath));
+        } catch (FileAlreadyExistsException e) {
+            logger.error(e);
+            throw e;
+        } catch (IOException e) {
+            logger.error(e);
+            throw e;
+        }
+    }
+    //POTREBBE ESSERE UTILE
+    public void saveFile(Part image, String subPath) throws FileAlreadyExistsException, IOException {
+        try{
+            image.write(subPath);
         } catch (FileAlreadyExistsException e) {
             logger.error(e);
             throw e;
