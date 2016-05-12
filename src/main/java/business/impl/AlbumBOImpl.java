@@ -6,6 +6,7 @@ import dao.AlbumDAO;
 import domain.Album;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class AlbumBOImpl implements AlbumBO {
     public void save(Album user){
         try {
          albumDao.save(user);
-        }catch(Exception e) {           
+        }catch(DataAccessException e) {           
             logger.error(e);
             throw e;
         }
@@ -37,7 +38,7 @@ public class AlbumBOImpl implements AlbumBO {
     public void update(Album user) {
         try {
          albumDao.update(user);
-        }catch(Exception e) {
+        }catch(DataAccessException e) {
             logger.error(e);
             throw e;
         }
@@ -47,7 +48,7 @@ public class AlbumBOImpl implements AlbumBO {
     public void delete(Integer uid) {
        try {
          albumDao.delete(uid);
-        }catch(Exception e) {
+        }catch(DataAccessException e) {
             logger.error(e);
             throw e;
         }
@@ -57,7 +58,7 @@ public class AlbumBOImpl implements AlbumBO {
     public List<Album> findAllAlbums() {
         try {
          return albumDao.findAllAlbums();
-        }catch(Exception e) {
+        }catch(DataAccessException e) {
             logger.error(e);
             throw e;
         }
@@ -67,7 +68,7 @@ public class AlbumBOImpl implements AlbumBO {
     public boolean existAlbum(Album album){
         try{
             return albumDao.existAlbum(album);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }
@@ -87,7 +88,7 @@ public class AlbumBOImpl implements AlbumBO {
     public Album findByUid(Integer uid){
         try{
             return albumDao.findByUid(uid);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import util.FileManager;
 
@@ -32,7 +33,7 @@ public class ArtistBOImpl implements ArtistBO {
     public void save(Artist artist) {        
         try {            
             artistDao.save(artist);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             logger.error(e);
             throw e;
         }        
@@ -47,7 +48,7 @@ public class ArtistBOImpl implements ArtistBO {
     public void update(Artist artist)   {
         try {
             artistDao.update(artist);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             logger.error(e);
             throw e;
         }
@@ -57,7 +58,7 @@ public class ArtistBOImpl implements ArtistBO {
     public void delete(Long uid)   {
         try {
             artistDao.delete(uid);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             logger.error(e);
             throw e;
         }
@@ -66,7 +67,7 @@ public class ArtistBOImpl implements ArtistBO {
     public List<Artist> findAllArtists()  {
         try {
             return artistDao.findAllArtists();
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             logger.error(e);
             throw e;
         }
@@ -75,7 +76,7 @@ public class ArtistBOImpl implements ArtistBO {
     public Artist findByUid(Long uid)  {
         try {
             return artistDao.findByUid(uid);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             logger.error(e);
             throw e;
         }
@@ -84,7 +85,7 @@ public class ArtistBOImpl implements ArtistBO {
     public boolean existArtist(Artist artist){
         try{
             return artistDao.existArtist(artist);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }

@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,7 +33,7 @@ public class RoleBOImpl implements RoleBO {
     public void delete(Integer uid) {
         try{
             roleDao.delete(uid);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }
@@ -42,7 +43,7 @@ public class RoleBOImpl implements RoleBO {
     public List<Role> findAllRoles() {
         try{
             return roleDao.findAllRoles();
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }        
@@ -52,7 +53,7 @@ public class RoleBOImpl implements RoleBO {
     public Role findByUid(Integer uid) {
         try{
             return roleDao.findByUid(uid);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }
@@ -62,7 +63,7 @@ public class RoleBOImpl implements RoleBO {
     public void save(Role role) {
         try{
             roleDao.save(role);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }
@@ -72,7 +73,7 @@ public class RoleBOImpl implements RoleBO {
     public void update(Role role) {
         try{
             roleDao.update(role);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }
@@ -82,7 +83,7 @@ public class RoleBOImpl implements RoleBO {
     public boolean existRole(Role role) {
         try{
             return roleDao.existRole(role);
-        }catch(Exception e){
+        }catch(DataAccessException e){
             logger.error(e);
             throw e;
         }
