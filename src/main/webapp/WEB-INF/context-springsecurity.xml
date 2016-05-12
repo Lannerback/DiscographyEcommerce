@@ -21,8 +21,9 @@
         <intercept-url pattern='/user/**' access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />                  
 
             
-        <form-login login-page="/login"              
-                    default-target-url="/" 
+        <form-login login-page="/login"   
+                    authentication-success-handler-ref=""           
+                    
                     authentication-failure-handler-ref="customAuthenticationFailureHandler"
                     username-parameter="username" 
                     password-parameter="password" 
@@ -43,7 +44,9 @@
     <beans:bean id="customerUserDetailsService" 
           class="SecurityService.CustomerUserDetailsService" />
         
-    
+    <beans:bean id="customAuthenticationSuccessHandler"
+      class="SecurityService.CustomAuthenticationSuccessHandler">           
+    </beans:bean>
     <!-- QUALSIASI DI QUESTI AUTHENTICATION LISTENER FUNZIONA ... SCOPRIRE QUAL È IL MIGLIORE DA USARE E PERCHE -->
     <beans:bean id="customAuthenticationFailureHandler"
       class="SecurityService.CustomAuthenticationFailureHandler">   

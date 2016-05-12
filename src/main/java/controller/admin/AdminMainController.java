@@ -4,6 +4,7 @@ package controller.admin;
 import business.AlbumBO;
 import business.ArtistBO;
 import business.UserBO;
+import dao.impl.DaoBase;
 import domain.Role;
 import domain.User;
 import org.apache.log4j.Logger;
@@ -43,6 +44,8 @@ private final static Logger logger = Logger.getLogger(AdminMainController.class)
     public String adminmanagment(
             @AuthenticationPrincipal User user) {          
 
+        DaoBase toDto = new DaoBase();
+        javax.swing.JOptionPane.showMessageDialog(null, toDto.getDTO(user));
         
         return "admin/management";
     }
