@@ -55,9 +55,10 @@ public class UserMainController {
         return "user/home";
     }
     
-    @RequestMapping(value = "userprofile",method = RequestMethod.POST)
-    public User userprofile(Integer userId){
-        return userBO.findUserById(userId);
+    @RequestMapping(value = "userprofile")
+    public ModelAndView userprofile(ModelAndView mav,@AuthenticationPrincipal User user){
+        mav.addObject("userBean",userBO.getUserByUserName(user.getUsername()));
+        return mav;
     }
     
     @RequestMapping(value = "changed", method = RequestMethod.POST)

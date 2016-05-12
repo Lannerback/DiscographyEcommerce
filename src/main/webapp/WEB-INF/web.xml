@@ -38,7 +38,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/dispatcher-servlet.xml 
-            /WEB-INF/context-security.xml
+            /WEB-INF/hibernate-config.xml
             /WEB-INF/context-springsecurity.xml
         </param-value>
     </context-param>
