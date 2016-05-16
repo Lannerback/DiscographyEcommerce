@@ -128,7 +128,7 @@ public class AlbumController {
 
     }
 
-    @RequestMapping(value = "remove/{removeid}", method = RequestMethod.GET)
+    @RequestMapping(value = "remove/{removeid}")
     public ModelAndView remove(
             @PathVariable(value = "removeid") Integer removecd,ModelAndView model) {
 

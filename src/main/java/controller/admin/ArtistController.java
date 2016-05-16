@@ -11,16 +11,22 @@ import static controller.admin.AlbumController.logger;
 import domain.Album;
 import domain.Artist;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sun.nio.ch.IOUtil;
 import util.ClientResponse;
 import util.FileManager;
 
@@ -43,7 +49,8 @@ public class ArtistController {
     @Autowired
     @Qualifier("fileManager")
     private FileManager fileManager;
-
+    
+    
     static final Logger logger = Logger.getLogger(AlbumController.class);
 
     @RequestMapping(value = {"list", ""}, method = RequestMethod.GET)
@@ -61,9 +68,10 @@ public class ArtistController {
         return model;
     }
 
-    @RequestMapping(value = "save", method = RequestMethod.POST)
-    public ModelAndView save(@ModelAttribute("artistBean") Artist artist) {
-
+    @RequestMapping(value = "save", method = RequestMethod.POST)    
+    public ModelAndView save(@ModelAttribute("artistBean") Artist artist,HttpServletRequest request) throws IOException {
+        /*String jsonBody = IOUtils.toString(request.getInputStream());
+        javax.swing.JOptionPane.showMessageDialog(null, jsonBody);*/
         try {
             if (artistBO.existArtist(artist)) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Artist already exist", "Error duplicated artist",
@@ -79,7 +87,7 @@ public class ArtistController {
 
     }
 
-    @RequestMapping(value = "remove/{removeid}", method = RequestMethod.GET)
+    @RequestMapping(value = "remove/{removeid}")
     public ModelAndView remove(
             @PathVariable(value = "removeid") Long removeartist,ModelAndView model) {
 
@@ -124,8 +132,7 @@ public class ArtistController {
 
     @RequestMapping(value = "saveupdate")
     public ModelAndView saveupdate(@ModelAttribute("artistBean") Artist artist) {
-
-        javax.swing.JOptionPane.showMessageDialog(null, artist);
+        
         artistBO.update(artist);
         return new ModelAndView("admin/artist/list").addObject("artists", artistBO.findAllArtists());
     }
