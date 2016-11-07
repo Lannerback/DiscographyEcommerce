@@ -5,12 +5,14 @@ time with back-end technology like:
 
 Spring Framework
 Spring Security,
-Custom filter and handler for request and spring Security methods handling
+Custom filter and handler for request and spring Security methods handling,
+Apache Tiles
 
 ORM:
 Hibernate
 
 Frontend Technologies like:
+bootstrap,
 jsp,
 html,
 css,
